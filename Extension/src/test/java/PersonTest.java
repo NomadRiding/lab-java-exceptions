@@ -3,23 +3,6 @@ package org.example/
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PersonsListTest {
-
-    @Test
-    public void testSetAgeThrowsErrorForInvalidAge() {
-        Person person = new Person(1, "John Doe", 25, "Engineer");
-        IllegalArgumentException thrown = assertThrows(
-                IllegalArgumentException.class,
-                () -> person.setAge(-5),
-                "Expected setAge(-5) to throw, but it didn't"
-        );
-        assertTrue(thrown.getMessage().contains("Enter a valid age"));
-    }
-
-
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
     public class PersonsListTest {
 
         @Test
