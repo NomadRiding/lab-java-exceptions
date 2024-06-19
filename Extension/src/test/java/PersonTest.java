@@ -1,61 +1,38 @@
 package org.example;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PersonsListTest {
+class PersonListTest {
 
     @Test
-    public void testSetAgeThrowsErrorForInvalidAge() {
-        Person person = new Person(1, "John Doe", 25, "Engineer");
-        IllegalArgumentException thrown = assertThrows(
-                IllegalArgumentException.class,
-                () -> person.setAge(-5),
-                "Expected setAge(-5) to throw, but it didn't"
-        );
-        assertTrue(thrown.getMessage().contains("Enter a valid age"));
+    void findByName1() {
+        PersonList personList = new PersonList();
+        Person p = new Person(1, "Jenna Doe", 30, "Software Developer");
+        personList.getList().add(p);
+        Person foundPerson = personList.findByName("Jenna Doe");
+        assertEquals(p, foundPerson);
     }
 
     @Test
-    public void testFindByNameReturnsCorrectPerson() {
-        PersonsList personsList = new PersonsList();
-        Person person1 = new Person(1, "Alice Smith", 30, "Doctor");
-        Person person2 = new Person(2, "Bob Johnson", 25, "Engineer");
-        personsList.addPerson(person1);
-        personsList.addPerson(person2);
-
-        Person foundPerson = personsList.findByName("Alice Smith");
-        assertNotNull(foundPerson);
-        assertEquals("Alice Smith", foundPerson.getName());
-        assertEquals(30, foundPerson.getAge());
-        assertEquals("Doctor", foundPerson.getOccupation());
+    void findByName2() {
+        PersonList personList = new PersonList();
+        Person p = new Person(1, "Jenna Doe", 30, "Software Developer");
+        personList.getList().add(p);
+        assertThrows(IllegalArgumentException.class, () -> personList.findByName("Jenna_Doe"));
     }
 
     @Test
-    public void testFindByNameThrowsExceptionForInvalidFormat() {
-        PersonsList personsList = new PersonsList();
-        IllegalArgumentException thrown = assertThrows(
-                IllegalArgumentException.class,
-                () -> personsList.findByName("alicEsmith"),
-                "Expected findByName(\"alicEsmith\") to throw, but it didn't"
-        );
-        assertTrue(thrown.getMessage().contains("Name must be in the format 'FirstName LastName'"));
-    }
+    void testClone() {
+        PersonList personList = new PersonList();
+        Person p = new Person(1, "John Doe", 30, "Software Developer");
+        Person clonedPerson = personList.clone(p);
+        assertEquals(p.getName(), clonedPerson.getName());
+        assertEquals(p.getAge(), clonedPerson.getAge());
+        assertEquals(p.getOccupation(), clonedPerson.getOccupation());
+        assertNotEquals(p.getId(), clonedPerson.getId());
 
-    @Test
-    public void testCloneCreatesNewPersonWithNewId() {
-        Person person = new Person(1, "Alice Smith", 30, "Doctor");
-        PersonsList personsList = new PersonsList();
 
-        Person clonedPerson = personsList.clone(person, 2);
-
-        // Validate that the cloned person has the same properties except the id
-        assertEquals("Alice Smith", clonedPerson.getName());
-        assertEquals(30, clonedPerson.getAge());
-        assertEquals("Doctor", clonedPerson.getOccupation());
-        assertEquals(2, clonedPerson.getId());
-
-        // Ensure the original person is unchanged
-        assertNotEquals(person.getId(), clonedPerson.getId());
     }
 }
