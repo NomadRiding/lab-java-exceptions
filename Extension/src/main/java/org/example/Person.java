@@ -3,18 +3,26 @@ package org.example;
 import java.util.Objects;
 
 public class Person {
+
+    //PRIVATE PROPERTIES
     private int id;
     private String name;
     private int age;
     private String occupation;
 
-    public Person(int id, String name, int age, String occupation) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.occupation = occupation;
+    //CONSTRUCTOR
+    public Person(int id, String name, int age, String occupation){
+        try {
+            setId(id);
+            setName(name);
+            setAge(age);
+            setOccupation(occupation);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
+    //GETTERS AND SETTERS
     public int getId() {
         return id;
     }
@@ -36,11 +44,10 @@ public class Person {
     }
 
     public void setAge(int age) {
-        if(age > 0 && age < 130){
-            this.age = age;
-        }else {
-            System.out.println("Enter a valid age");
+        if(age < 0) {
+            throw new IllegalArgumentException("Age must be greater than 0");
         }
+        this.age = age;
     }
 
     public String getOccupation() {
@@ -51,28 +58,24 @@ public class Person {
         this.occupation = occupation;
     }
 
+    //METHODS
     @Override
-    public boolean equals(Object obj){
-        if (this == obj){
-            return true;
-        }
-        if(obj == null || getClass() != obj.getClass()){
-            return false;
-        }
-        Person person = (Person) obj;
-
-        if (age != person.age) {
-            return false;
-        }
-
-        if (!Objects.equals(name, person.name)) {
-            return false;
-        }
-        return occupation != null ? occupation.equals(person.occupation) : person.occupation == null;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return age == person.age && Objects.equals(name, person.name) && Objects.equals(occupation, person.occupation);
     }
 
     @Override
     public String toString() {
-        return "Person{id=" + id + ", name='" + name + "', age=" + age + ", occupation='" + occupation + "'}";
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", occupation='" + occupation + '\'' +
+                '}';
     }
+
+
 }
